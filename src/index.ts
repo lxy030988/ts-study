@@ -48,3 +48,20 @@ const up: 'up' = 'up'
 //字符串字面量和联合类型
 type T1 = '1' | '2' | '3'
 type T2 = string | number
+
+//泛型
+interface LengthWith {
+  length: number
+}
+
+function logger<T extends LengthWith>(v: T) {
+  console.log(v.length)
+}
+
+logger<string>('aaa')
+
+let obj = {
+  length: 10
+}
+type Obj = typeof obj
+logger<Obj>(obj)
