@@ -65,3 +65,4 @@ let obj = {
 }
 type Obj = typeof obj
 logger<Obj>(obj)
+export {}

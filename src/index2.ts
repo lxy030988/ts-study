@@ -51,3 +51,5 @@ namespace namespace_a {
     home: { title: 'home' }
   }
 }
+
+export {}

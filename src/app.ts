@@ -84,14 +84,15 @@ function constructor<T extends { new (...args: any[]): {} }>(c: T) {
 }
 
 function inject(key: PropertyKey): Function {
-  return (target: Function, targetKey: string, index?: number) => {
-    console.log('inject', key, target, targetKey, index)
-    if (!targetKey) {
+  return (target: Function, fnName: string, index?: number) => {
+    console.log('inject', key, target, fnName, index)
+    if (!fnName) {
       Reflect.defineMetadata(key, con.use(key), target)
     }
   }
 }
 
+//先执行@inject 再执行@constructor
 @constructor
 class IndexCtro {
   private index: IIndex
