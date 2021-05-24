@@ -67,10 +67,15 @@ function constructor<T extends { new (...args: any[]): {} }>(c: T) {
         // "noImplicitAny": false
         // this[_p] = new Index()
         const _meta = Reflect.getMetadata(TYPES[_p], c)
-        if (hasKey(this, _p) && _meta) {
-          // this[_p] = con.use('Index')
-          // this[_p] = con.use(TYPES[_p])
-          this[_p] = _meta
+        // console.log('this[_p]', hasKey(this, _p) && (this[_p] as any).length)
+        if (hasKey(this, _p)) {
+          if (!(this[_p] as any).length && _meta) {
+            // this[_p] = con.use('Index')
+            // this[_p] = con.use(TYPES[_p])
+            this[_p] = _meta
+          } else {
+            this[_p] = (this[_p] as any)[0]
+          }
         }
       }
     }
@@ -80,10 +85,7 @@ function constructor<T extends { new (...args: any[]): {} }>(c: T) {
 
 function inject(key: PropertyKey): Function {
   return (target: Function, targetKey: string, index?: number) => {
-    console.log('inject index', index)
-    if (hasKey(target, targetKey) && target[targetKey]) {
-      return
-    }
+    console.log('inject', key, target, targetKey, index)
     if (!targetKey) {
       Reflect.defineMetadata(key, con.use(key), target)
     }
