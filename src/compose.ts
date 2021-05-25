@@ -28,9 +28,26 @@ export default function compose(...funcs: Function[]) {
     return funcs[0]
   }
 
-  return funcs.reduce(
-    (a, b) =>
-      (...args: any) =>
-        a(b(...args))
-  )
+  return funcs.reduce((a, b) => {
+    console.log('a, b', a.toString(), b.toString())
+    return (...args: any) => {
+      console.log('...args', args)
+      return a(b(...args))
+    }
+  })
 }
+
+function fn1(str: string): string {
+  return str + 'fn1'
+}
+function fn2(str: string): string {
+  return str + 'fn2'
+}
+function fn3(str: string): string {
+  return str + 'fn3'
+}
+// console.log(compose(fn1)('compose1'))
+// console.log(compose(fn1, fn2)('compose2'))
+console.log(compose(fn1, fn2, fn3)('compose3'))
+console.log(fn1(fn2(fn3('111'))))
+// 111f3+f2+f1
