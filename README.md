@@ -33,3 +33,7 @@ typeof keyof instanceof
 is 函数返回类型的防护
 ```
 
+函数的双向协变
+类型保护
+unknown
+交叉类型
