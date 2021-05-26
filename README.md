@@ -39,3 +39,5 @@ unknown
 交叉类型
 类型推断
 infer
+自定义类型 [utility-types](https://www.npmjs.com/package/utility-types)
+
