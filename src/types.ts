@@ -52,4 +52,18 @@ namespace namespace_a {
   }
 }
 
+class C1 {
+  constructor(public name: string) {
+    this.name = name
+  }
+  getName() {
+    console.log(this.name)
+  }
+}
+
+type T1 = InstanceType<typeof C1>
+const t1: T1 = {
+  name: '1',
+  getName() {}
+}
 export {}
