@@ -4,7 +4,7 @@
   "description": "ts学习",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node src/compose.ts"
+    "dev": "ts-node src/8.ts"
   },
   "repository": {
     "type": "git",
