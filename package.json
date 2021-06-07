@@ -1,10 +1,10 @@
 {
-  "name": "ts-test",
+  "name": "ts-study",
   "version": "1.0.0",
   "description": "ts学习",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node src/8.ts"
+    "dev": "ts-node src/10.ts"
   },
   "repository": {
     "type": "git",
