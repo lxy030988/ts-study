@@ -33,13 +33,23 @@ typeof keyof instanceof
 is 函数返回类型的防护
 ```
 
-函数的双向协变
-类型保护
-unknown
-交叉类型
-类型推断
-infer
-自定义类型 [utility-types](https://www.npmjs.com/package/utility-types)
-Proxy
-Merge
-命名空间
+- 函数的双向协变
+- 类型保护
+- unknown
+- 交叉类型
+- 类型推断
+- infer
+- 自定义类型 [utility-types](https://www.npmjs.com/package/utility-types)
+- Proxy
+- Merge
+- 命名空间
+- declare类型声明 
+- 自己写声明文件并使用
+
+```tsx
+"baseUrl": "./",
+"paths": {
+    "*": ["types/*"] //声明文件写在types目录下面
+}
+```
+
