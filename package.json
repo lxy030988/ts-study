@@ -4,7 +4,7 @@
   "description": "ts学习",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node src/10.ts"
+    "dev": "ts-node src/11.ts"
   },
   "repository": {
     "type": "git",
@@ -24,5 +24,8 @@
     "ts-node": "^9.1.1",
     "tslib": "^2.2.0",
     "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "events": "^3.3.0"
   }
 }
