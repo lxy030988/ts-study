@@ -3,7 +3,32 @@ import qs from 'qs'
 import parse from 'parse-headers'
 import { AxiosInterceptorManager } from './AxiosInterceptorManager'
 
+let defaults: AxiosRequestConfig = {
+  method: 'GET',
+  timeout: 0,
+  headers: {
+    common: {
+      //针对所有方法的请求生效
+      accept: 'application/json' //告诉服务器返回json格式的数据
+    }
+  }
+}
+
+let getStyleMethods = ['get', 'delete', 'head', 'options'] //get风格的请求
+let postStyleMethods = ['post', 'put', 'patch'] //post风格的请求
+getStyleMethods.forEach((method: string) => {
+  defaults.headers![method] = {}
+})
+postStyleMethods.forEach((method: string) => {
+  defaults.headers![method] = {
+    'content-type': 'application/json' //请求体的格式
+  }
+})
+
+let allMethods = [...getStyleMethods, ...postStyleMethods]
+
 export class Axios<T> {
+  public defaults = defaults
   public interceptors = {
     request: new AxiosInterceptorManager<AxiosRequestConfig>(),
     response: new AxiosInterceptorManager<AxiosResponse<T>>()
@@ -12,6 +37,7 @@ export class Axios<T> {
   request(
     config: AxiosRequestConfig
   ): Promise<AxiosRequestConfig | AxiosResponse<T>> {
+    config.headers = Object.assign(this.defaults.headers, config.headers)
     const chain = [
       { onFulfilled: this.dispatchRequest, onRejected: (e: any) => e }
     ]
@@ -66,7 +92,14 @@ export class Axios<T> {
       }
       if (headers) {
         for (let key in headers) {
-          request.setRequestHeader(key, headers[key])
+          //common表示所有请求方法都生效 或者说key是一个方法名
+          if (key === 'common' || allMethods.includes(key)) {
+            for (let key2 in headers[key]) {
+              request.setRequestHeader(key2, headers[key][key2])
+            }
+          } else {
+            request.setRequestHeader(key, headers[key])
+          }
         }
       }
       let body: string | null = null
