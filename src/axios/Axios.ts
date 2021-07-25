@@ -11,20 +11,20 @@ export class Axios {
   //定义一个派发请求的方法
   dispatchRequest<T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return new Promise<AxiosResponse<T>>((resolve, reject) => {
-      let { url, method, params } = config
+      let { url, method, params, headers, data, timeout } = config
       let request = new XMLHttpRequest()
 
       let nParams: any = params
       if (params && typeof params == 'object') {
         nParams = qs.stringify(params)
+        // /getuser?
+        url += (url!.indexOf('?') == -1 ? '?' : '&') + nParams
       }
-      // /getuser?
-      url += (url.indexOf('?') == -1 ? '?' : '&') + nParams
 
-      request.open(method, url, true)
+      request.open(method!, url!, true)
       request.responseType = 'json'
       request.onreadystatechange = () => {
-        if (request.readyState === 4) {
+        if (request.readyState === 4 && request.status !== 0) {
           if (request.status >= 200 && request.status < 300) {
             let res: AxiosResponse<T> = {
               data: request.response ? request.response : request.responseText,
@@ -36,11 +36,29 @@ export class Axios {
             }
             resolve(res)
           } else {
-            reject('request error')
+            reject('request error failed with code 400')
           }
         }
       }
-      request.send()
+      if (headers) {
+        for (let key in headers) {
+          request.setRequestHeader(key, headers[key])
+        }
+      }
+      let body: string | null = null
+      if (data) {
+        body = JSON.stringify(data)
+      }
+      request.onerror = () => {
+        reject('net:网络连接错误')
+      }
+      if (timeout) {
+        request.timeout = timeout
+        request.ontimeout = () => {
+          reject(`Error: timeout of ${timeout}ms exceeded`)
+        }
+      }
+      request.send(body)
     })
   }
 }
