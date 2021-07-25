@@ -11,6 +11,7 @@ export interface AxiosRequestConfig {
   timeout?: number
   transformRequest?: (data: Record<string, any>, headers: any) => any
   transformResponse?: (data: Record<string, any>) => any
+  CancelToken?: any
 }
 
 export interface AxiosInstance {
@@ -19,6 +20,8 @@ export interface AxiosInstance {
     request: AxiosInterceptorManager<AxiosRequestConfig>
     response: AxiosInterceptorManager<AxiosResponse>
   }
+  CancelToken?: any
+  isCancel?: any
 }
 
 export interface AxiosResponse<T = any> {

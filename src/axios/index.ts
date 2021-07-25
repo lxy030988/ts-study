@@ -2,6 +2,7 @@
 //定义一个类的时候  一个类的原型Axios.prototype  一个类的实例
 
 import { Axios } from './Axios'
+import { CancelToken, isCancel } from './cancel'
 import { AxiosInstance } from './types'
 
 function createInstance(): AxiosInstance {
@@ -16,5 +17,8 @@ function createInstance(): AxiosInstance {
 }
 
 let axios = createInstance()
+axios.CancelToken = new CancelToken()
+axios.isCancel = isCancel
+
 export default axios
 export * from './types'
