@@ -5,7 +5,7 @@ import { Axios } from './Axios'
 import { AxiosInstance } from './types'
 
 function createInstance(): AxiosInstance {
-  let context = new Axios() //this指向上下文
+  let context = new Axios<any>() //this指向上下文
 
   //让request 方法里的this永远指向context 也就是 new Axios()
   let instance = Axios.prototype.request.bind(context)
