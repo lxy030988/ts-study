@@ -11,6 +11,13 @@ let defaults: AxiosRequestConfig = {
       //针对所有方法的请求生效
       accept: 'application/json' //告诉服务器返回json格式的数据
     }
+  },
+  transformRequest: (data: Record<string, any>, headers: any) => {
+    headers['common']['content-type'] = 'application/json'
+    return JSON.stringify(data)
+  },
+  transformResponse: (res: any) => {
+    return res.data
   }
 }
 
@@ -38,6 +45,9 @@ export class Axios<T> {
     config: AxiosRequestConfig
   ): Promise<AxiosRequestConfig | AxiosResponse<T>> {
     config.headers = Object.assign(this.defaults.headers, config.headers)
+    if (config.transformRequest && config.data) {
+      config.data = config.transformRequest(config.data, config.headers)
+    }
     const chain = [
       { onFulfilled: this.dispatchRequest, onRejected: (e: any) => e }
     ]
@@ -83,6 +93,9 @@ export class Axios<T> {
               headers: parse(request.getAllResponseHeaders()),
               config,
               request
+            }
+            if (config.transformResponse) {
+              res = config.transformResponse(res)
             }
             resolve(res)
           } else {
