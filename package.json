@@ -4,7 +4,7 @@
   "description": "ts学习",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node src/11.ts"
+    "dev": "ts-node src/01-permutation.ts"
   },
   "repository": {
     "type": "git",
